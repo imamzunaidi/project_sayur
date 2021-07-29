@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Jul 2021 pada 09.08
--- Versi server: 10.3.15-MariaDB
--- Versi PHP: 7.3.6
+-- Generation Time: Jul 29, 2021 at 11:43 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_admin`
+-- Table structure for table `tb_admin`
 --
 
 CREATE TABLE `tb_admin` (
@@ -37,7 +36,7 @@ CREATE TABLE `tb_admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_admin`
+-- Dumping data for table `tb_admin`
 --
 
 INSERT INTO `tb_admin` (`id_admin`, `nama`, `username`, `password`, `role_id`) VALUES
@@ -46,7 +45,7 @@ INSERT INTO `tb_admin` (`id_admin`, `nama`, `username`, `password`, `role_id`) V
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_akses`
+-- Table structure for table `tb_akses`
 --
 
 CREATE TABLE `tb_akses` (
@@ -55,7 +54,7 @@ CREATE TABLE `tb_akses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_akses`
+-- Dumping data for table `tb_akses`
 --
 
 INSERT INTO `tb_akses` (`role_id`, `hak_akses`) VALUES
@@ -65,7 +64,7 @@ INSERT INTO `tb_akses` (`role_id`, `hak_akses`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_barang`
+-- Table structure for table `tb_barang`
 --
 
 CREATE TABLE `tb_barang` (
@@ -79,7 +78,7 @@ CREATE TABLE `tb_barang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_barang`
+-- Dumping data for table `tb_barang`
 --
 
 INSERT INTO `tb_barang` (`id_brg`, `nama_brg`, `keterangan`, `id_kategori`, `harga`, `stok`, `gambar`) VALUES
@@ -91,7 +90,7 @@ INSERT INTO `tb_barang` (`id_brg`, `nama_brg`, `keterangan`, `id_kategori`, `har
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_invoice`
+-- Table structure for table `tb_invoice`
 --
 
 CREATE TABLE `tb_invoice` (
@@ -104,7 +103,7 @@ CREATE TABLE `tb_invoice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_invoice`
+-- Dumping data for table `tb_invoice`
 --
 
 INSERT INTO `tb_invoice` (`id_invoice`, `nama`, `alamat`, `no_hp`, `tgl_pesan`, `batas_bayar`) VALUES
@@ -121,7 +120,7 @@ INSERT INTO `tb_invoice` (`id_invoice`, `nama`, `alamat`, `no_hp`, `tgl_pesan`, 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_kategori`
+-- Table structure for table `tb_kategori`
 --
 
 CREATE TABLE `tb_kategori` (
@@ -130,7 +129,7 @@ CREATE TABLE `tb_kategori` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_kategori`
+-- Dumping data for table `tb_kategori`
 --
 
 INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`) VALUES
@@ -144,7 +143,7 @@ INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_konsumen`
+-- Table structure for table `tb_konsumen`
 --
 
 CREATE TABLE `tb_konsumen` (
@@ -159,7 +158,7 @@ CREATE TABLE `tb_konsumen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_konsumen`
+-- Dumping data for table `tb_konsumen`
 --
 
 INSERT INTO `tb_konsumen` (`id_konsumen`, `nama`, `alamat`, `no_tlp`, `email`, `username`, `password`, `role_id`) VALUES
@@ -169,7 +168,7 @@ INSERT INTO `tb_konsumen` (`id_konsumen`, `nama`, `alamat`, `no_tlp`, `email`, `
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_pembayaran`
+-- Table structure for table `tb_pembayaran`
 --
 
 CREATE TABLE `tb_pembayaran` (
@@ -179,7 +178,7 @@ CREATE TABLE `tb_pembayaran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_pembayaran`
+-- Dumping data for table `tb_pembayaran`
 --
 
 INSERT INTO `tb_pembayaran` (`id_pembayaran`, `metode_pembayaran`, `no_rek`) VALUES
@@ -191,7 +190,7 @@ INSERT INTO `tb_pembayaran` (`id_pembayaran`, `metode_pembayaran`, `no_rek`) VAL
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_pesanan`
+-- Table structure for table `tb_pesanan`
 --
 
 CREATE TABLE `tb_pesanan` (
@@ -201,26 +200,28 @@ CREATE TABLE `tb_pesanan` (
   `nama_brg` varchar(200) NOT NULL,
   `jumlah` int(5) NOT NULL,
   `harga` int(11) NOT NULL,
-  `sub_total` int(11) NOT NULL
+  `sub_total` int(11) NOT NULL,
+  `status_bayar` enum('belum bayar','sudah bayar','kadaluarsa') NOT NULL,
+  `status_kirim` enum('belum kirim','proses kirim','barang diterima') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_pesanan`
+-- Dumping data for table `tb_pesanan`
 --
 
-INSERT INTO `tb_pesanan` (`id_pesanan`, `id_invoice`, `id_brg`, `nama_brg`, `jumlah`, `harga`, `sub_total`) VALUES
-(6, 11, 1, 'Gula batu', 1, 10000, 0),
-(7, 12, 1, 'Gula batu', 2, 10000, 0),
-(8, 14, 1, 'Gula batu', 3, 10000, 30000),
-(9, 15, 6, 'Daging Ayam', 2, 35000, 70000),
-(10, 16, 2, 'Beras Cap Topi Koki', 1, 120000, 120000),
-(11, 17, 2, 'Beras Cap Topi Koki', 1, 120000, 120000),
-(12, 18, 1, 'Gula batu', 1, 10000, 10000),
-(13, 19, 1, 'Gula batu', 1, 10000, 10000),
-(14, 20, 6, 'Daging Ayam', 1, 35000, 35000);
+INSERT INTO `tb_pesanan` (`id_pesanan`, `id_invoice`, `id_brg`, `nama_brg`, `jumlah`, `harga`, `sub_total`, `status_bayar`, `status_kirim`) VALUES
+(6, 11, 1, 'Gula batu', 1, 10000, 0, 'belum bayar', 'belum kirim'),
+(7, 12, 1, 'Gula batu', 2, 10000, 0, 'belum bayar', 'belum kirim'),
+(8, 14, 1, 'Gula batu', 3, 10000, 30000, 'belum bayar', 'belum kirim'),
+(9, 15, 6, 'Daging Ayam', 2, 35000, 70000, 'belum bayar', 'belum kirim'),
+(10, 16, 2, 'Beras Cap Topi Koki', 1, 120000, 120000, 'belum bayar', 'belum kirim'),
+(11, 17, 2, 'Beras Cap Topi Koki', 1, 120000, 120000, 'belum bayar', 'belum kirim'),
+(12, 18, 1, 'Gula batu', 1, 10000, 10000, 'belum bayar', 'belum kirim'),
+(13, 19, 1, 'Gula batu', 1, 10000, 10000, 'belum bayar', 'belum kirim'),
+(14, 20, 6, 'Daging Ayam', 1, 35000, 35000, 'belum bayar', 'belum kirim');
 
 --
--- Trigger `tb_pesanan`
+-- Triggers `tb_pesanan`
 --
 DELIMITER $$
 CREATE TRIGGER `pesanan_penjualan` AFTER INSERT ON `tb_pesanan` FOR EACH ROW BEGIN
@@ -235,52 +236,52 @@ DELIMITER ;
 --
 
 --
--- Indeks untuk tabel `tb_admin`
+-- Indexes for table `tb_admin`
 --
 ALTER TABLE `tb_admin`
   ADD PRIMARY KEY (`id_admin`),
   ADD KEY `role_id` (`role_id`);
 
 --
--- Indeks untuk tabel `tb_akses`
+-- Indexes for table `tb_akses`
 --
 ALTER TABLE `tb_akses`
   ADD PRIMARY KEY (`role_id`);
 
 --
--- Indeks untuk tabel `tb_barang`
+-- Indexes for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
   ADD PRIMARY KEY (`id_brg`),
   ADD KEY `id_kategori` (`id_kategori`);
 
 --
--- Indeks untuk tabel `tb_invoice`
+-- Indexes for table `tb_invoice`
 --
 ALTER TABLE `tb_invoice`
   ADD PRIMARY KEY (`id_invoice`);
 
 --
--- Indeks untuk tabel `tb_kategori`
+-- Indexes for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
   ADD PRIMARY KEY (`id_kategori`);
 
 --
--- Indeks untuk tabel `tb_konsumen`
+-- Indexes for table `tb_konsumen`
 --
 ALTER TABLE `tb_konsumen`
   ADD PRIMARY KEY (`id_konsumen`),
   ADD KEY `role_id` (`role_id`);
 
 --
--- Indeks untuk tabel `tb_pembayaran`
+-- Indexes for table `tb_pembayaran`
 --
 ALTER TABLE `tb_pembayaran`
   ADD PRIMARY KEY (`id_pembayaran`);
 
 --
--- Indeks untuk tabel `tb_pesanan`
+-- Indexes for table `tb_pesanan`
 --
 ALTER TABLE `tb_pesanan`
   ADD PRIMARY KEY (`id_pesanan`),
@@ -288,81 +289,81 @@ ALTER TABLE `tb_pesanan`
   ADD KEY `id_invoice` (`id_invoice`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_admin`
+-- AUTO_INCREMENT for table `tb_admin`
 --
 ALTER TABLE `tb_admin`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_akses`
+-- AUTO_INCREMENT for table `tb_akses`
 --
 ALTER TABLE `tb_akses`
   MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_barang`
+-- AUTO_INCREMENT for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
   MODIFY `id_brg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_invoice`
+-- AUTO_INCREMENT for table `tb_invoice`
 --
 ALTER TABLE `tb_invoice`
   MODIFY `id_invoice` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_kategori`
+-- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
   MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_konsumen`
+-- AUTO_INCREMENT for table `tb_konsumen`
 --
 ALTER TABLE `tb_konsumen`
   MODIFY `id_konsumen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_pembayaran`
+-- AUTO_INCREMENT for table `tb_pembayaran`
 --
 ALTER TABLE `tb_pembayaran`
   MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_pesanan`
+-- AUTO_INCREMENT for table `tb_pesanan`
 --
 ALTER TABLE `tb_pesanan`
   MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `tb_admin`
+-- Constraints for table `tb_admin`
 --
 ALTER TABLE `tb_admin`
   ADD CONSTRAINT `tb_admin_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `tb_akses` (`role_id`);
 
 --
--- Ketidakleluasaan untuk tabel `tb_barang`
+-- Constraints for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
   ADD CONSTRAINT `tb_barang_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `tb_kategori` (`id_kategori`);
 
 --
--- Ketidakleluasaan untuk tabel `tb_konsumen`
+-- Constraints for table `tb_konsumen`
 --
 ALTER TABLE `tb_konsumen`
   ADD CONSTRAINT `tb_konsumen_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `tb_akses` (`role_id`);
 
 --
--- Ketidakleluasaan untuk tabel `tb_pesanan`
+-- Constraints for table `tb_pesanan`
 --
 ALTER TABLE `tb_pesanan`
   ADD CONSTRAINT `tb_pesanan_ibfk_1` FOREIGN KEY (`id_brg`) REFERENCES `tb_barang` (`id_brg`),
