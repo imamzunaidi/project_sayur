@@ -75,10 +75,11 @@ class Dashboard extends CI_Controller{
 		$is_processed = $this->model_invoice->index();
 		if($is_processed){
 			$this->cart->destroy();
-			$this->load->view('templates/header');
-			$this->load->view('templates/sidebar');
-			$this->load->view('konsumen/proses_pesanan');
-			$this->load->view('templates/footer');
+			$this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Data Berhasil Di Tambahkan, Silahkan Lakukan Pembayaran
+			</div>');
+			redirect('konsumen/pesanan');
 		}else{
 			echo "Maaf, Pesanan Anda Gagal Diproses!";
 		}

@@ -32,7 +32,7 @@
 
 	</table>
 
-	<div align="right">
+  <div align="right">
 		<a href="<?php echo base_url('konsumen/dashboard/hapus_keranjang') ?>"><div class="btn btn-sm btn-danger">
 			Hapus Keranjang</div></a>
 		<a href="<?php echo base_url('konsumen/dashboard/index') ?>"><div class="btn btn-sm btn-primary">
@@ -41,4 +41,19 @@
 			Checkout</div></a>
 	</div>
 
+	<!-- <div align="right"> -->
+		<!-- <form id="payment-form" method="post" action="<?=site_url()?>payment/snap/finish">
+			<input type="hidden" name="result_type" id="result-type" value="">
+			<input type="hidden" name="result_data" id="result-data" value="">
+		</form>
+		<a href="<?php echo base_url('konsumen/dashboard/hapus_keranjang') ?>"><div class="btn btn-sm btn-danger">
+			Hapus Keranjang</div></a>
+		<a href="<?php echo base_url('konsumen/dashboard/index') ?>"><div class="btn btn-sm btn-primary">
+			Lanjutkan Belanja</div></a>
+		<button id="pay-button" class="btn btn-sm btn-success" >
+		Checkout</a></button> -->
+	<!-- </div> -->
 </div>
+    
+    
+  

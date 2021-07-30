@@ -55,17 +55,34 @@
                         <i class="fas fa-fw"></i>
                         <span>Lain-Lain</span>
                     </a>
+                    
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTree" aria-expanded="true" aria-controls="collapseTree">
+                  <i class="fas fa-fw fa-database"></i>
+                  <span>Pesanan</span></a>
+                </a>
+                <div id="collapseTree" class="collapse" aria-labelledby="headingTree" data-parent="#accordionSidebar">
+                  <div class="bg-white py-2 collapse-inner rounded">
+                    <!-- <h6 class="collapse-header">Custom Components:</h6> -->
+                    <a class="collapse-item" href="<?php echo base_url('konsumen/pesanan') ?>">
+                        <i class="fas fa-fw fa-basket"></i>
+                        <span>Data Pesanan</span>
+                    </a>
+                    <a class="collapse-item" href="<?php echo base_url('payment/snap/riwayat_pemesanan') ?>">
+                        <i class="fas fa-fw fa-seedling"></i>
+                        <span>Riwayat Pesanan</span></a>
+                
                   </div>
                 </div>
               </li>
 
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="<?php echo base_url('konsumen/pesanan') ?>">
-                    <i class="fas fa-fw fa-file-invoice"></i>
-                    <span>Pesanan</span></a>
-            </li>
+         
 
             <!-- Heading -->
             <!-- <div class="sidebar-heading">
