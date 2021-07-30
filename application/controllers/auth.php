@@ -31,12 +31,17 @@ class Auth extends CI_Controller
 			}elseif($auth1)
 			{
 				$this->session->set_userdata('username', $auth1->username);
+				$this->session->set_userdata('id_konsumen', $auth1->id_konsumen);
+				$this->session->set_userdata('nama', $auth1->nama);
+				$this->session->set_userdata('alamat', $auth1->alamat);
+				$this->session->set_userdata('no_hp', $auth1->no_tlp);
 				$this->session->set_userdata('role_id', $auth1->role_id);
 
 				redirect('konsumen/dashboard');
 			}
 			else{
 				$this->session->set_userdata('username', $auth->username);
+				$this->session->set_userdata('id_admin', $auth1->id_admin);
 				$this->session->set_userdata('role_id', $auth->role_id);
 
 				switch($auth->role_id)

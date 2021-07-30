@@ -21,8 +21,8 @@ class Pesanan extends CI_Controller
 	
 	public function index()
 	{
-		$data['invoice'] = $this->model_invoice->tampil_data();
-		// $data ['invoice']	= $this->db->query("SELECT * FROM tb_invoice")->result();
+		// $data['invoice'] = $this->model_invoice->tampil_data();
+		$data ['invoice']	= $this->db->query("SELECT * FROM tb_invoice v left join tb_pesanan p on v.id_invoice = p.id_invoice GROUP BY p.id_invoice")->result();
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
 		$this->load->view('konsumen/pesanan', $data);
@@ -40,5 +40,25 @@ class Pesanan extends CI_Controller
 		$this->load->view('templates/sidebar');
 		$this->load->view('konsumen/detail_pesanan', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function tampil_pemesanan(){
+		$id_konsumen = $this->session->userdata('id_konsumen');
+		$data['invoice'] = $this->db->query("SELECT * FROM tb_invoice where id_konsumen  = $id_konsumen order by id_invoice desc")->result();
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('konsumen/pesanan', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function hapus_pesanan($id_invoice){
+		$data = array('id_invoice' => $id_invoice);
+		$this->model_invoice->hapus_data_pesanan($data);
+		$this->model_invoice->hapus_data_invoice($data);
+		$this->session->set_flashdata('pesan','<div class="alert alert-danger alert-dismissible">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>Data Berhasil Di Hapus
+		</div>');
+		redirect('konsumen/pesanan');
 	}
 }

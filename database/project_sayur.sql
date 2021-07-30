@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2021 at 11:43 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- Generation Time: Jul 30, 2021 at 05:18 PM
+-- Server version: 10.3.16-MariaDB
+-- PHP Version: 7.3.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,6 +25,40 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `id` int(11) NOT NULL,
+  `transaction_id` varchar(100) NOT NULL,
+  `order_id` varchar(30) NOT NULL,
+  `gross_amount` int(23) NOT NULL,
+  `payment_type` varchar(50) NOT NULL,
+  `transaction_time` datetime NOT NULL,
+  `transaction_status` varchar(50) NOT NULL,
+  `bank` varchar(50) NOT NULL,
+  `va_number` varchar(50) NOT NULL,
+  `fraud_status` varchar(50) DEFAULT NULL,
+  `bca_va_number` varchar(50) NOT NULL,
+  `permata_va_number` varchar(50) NOT NULL,
+  `pdf_url` varchar(200) NOT NULL,
+  `finish_redirect_url` varchar(200) NOT NULL,
+  `bill_key` varchar(50) NOT NULL,
+  `biller_code` varchar(10) NOT NULL,
+  `payment_code` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`id`, `transaction_id`, `order_id`, `gross_amount`, `payment_type`, `transaction_time`, `transaction_status`, `bank`, `va_number`, `fraud_status`, `bca_va_number`, `permata_va_number`, `pdf_url`, `finish_redirect_url`, `bill_key`, `biller_code`, `payment_code`) VALUES
+(58, 'f6430cd3-b685-4bca-8200-1eb5aeb298d4', '1339627110', 26000, 'bank_transfer', '2021-07-30 21:22:25', 'pending', 'bca', '79427289172', 'accept', '79427289172', '-', 'https://app.sandbox.midtrans.com/snap/v1/transactions/1132c7bd-c86e-4e99-82a9-61472b6fd0c6/pdf', 'http://example.com?order_id=1339627110&status_code=201&transaction_status=pending', '-', '-', '-'),
+(59, '7db073a0-3469-4423-b2f6-3b430756f450', '613888615', 16000, 'bank_transfer', '2021-07-30 21:53:27', 'pending', 'bca', '79427007201', 'accept', '79427007201', '-', 'https://app.sandbox.midtrans.com/snap/v1/transactions/6a4248ea-b11e-4f9c-a64e-0c20ab197125/pdf', 'http://example.com?order_id=613888615&status_code=201&transaction_status=pending', '-', '-', '-');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_admin`
 --
 
@@ -32,6 +67,7 @@ CREATE TABLE `tb_admin` (
   `nama` varchar(200) NOT NULL,
   `username` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `role_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -39,8 +75,8 @@ CREATE TABLE `tb_admin` (
 -- Dumping data for table `tb_admin`
 --
 
-INSERT INTO `tb_admin` (`id_admin`, `nama`, `username`, `password`, `role_id`) VALUES
-(1, 'admin', 'admin', 'admin', 1);
+INSERT INTO `tb_admin` (`id_admin`, `nama`, `username`, `password`, `email`, `role_id`) VALUES
+(1, 'admin', 'admin', 'admin', 'admin@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -82,10 +118,10 @@ CREATE TABLE `tb_barang` (
 --
 
 INSERT INTO `tb_barang` (`id_brg`, `nama_brg`, `keterangan`, `id_kategori`, `harga`, `stok`, `gambar`) VALUES
-(1, 'Gula batu', 'Gula batu organik', 2, 10000, 14, 'gula.jpg'),
-(2, 'Beras Cap Topi Koki', 'Beras Cap Topi Koki 10kg', 1, 120000, 8, 'brstopikoki.jpg'),
-(6, 'Daging Ayam', 'Daging Ayam Negeri 1Kg', 3, 35000, 9, 'dagingayam.jpg'),
-(7, 'wortel organik', 'wortel organik 1Kg', 1, 8000, 24, '');
+(1, 'Gula batu', 'Gula batu organik', 2, 10000, 9, 'gula.jpg'),
+(2, 'Beras Cap Topi Koki', 'Beras Cap Topi Koki 10kg', 1, 120000, -9, 'brstopikoki.jpg'),
+(6, 'Daging Ayam', 'Daging Ayam Negeri 1Kg', 3, 35000, -3, 'dagingayam.jpg'),
+(7, 'wortel organik', 'wortel organik 1Kg', 1, 8000, 12, '');
 
 -- --------------------------------------------------------
 
@@ -99,23 +135,19 @@ CREATE TABLE `tb_invoice` (
   `alamat` varchar(500) NOT NULL,
   `no_hp` varchar(15) NOT NULL,
   `tgl_pesan` datetime NOT NULL,
-  `batas_bayar` datetime NOT NULL
+  `batas_bayar` datetime NOT NULL,
+  `keterangan` text NOT NULL,
+  `status_bayar` enum('belum bayar','menunggu pembayaran','lunas','') NOT NULL,
+  `status_kirim` enum('belum dikirim','proses kirim','sudah terkirim','') NOT NULL,
+  `id_konsumen` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_invoice`
 --
 
-INSERT INTO `tb_invoice` (`id_invoice`, `nama`, `alamat`, `no_hp`, `tgl_pesan`, `batas_bayar`) VALUES
-(11, 'BELA SAVIRA', 'Jogjakarta', '', '2021-07-25 21:59:10', '2021-07-26 21:59:10'),
-(12, 'Muhammad Dwi Saputra', 'Jogjakarta', '', '2021-07-25 22:49:43', '2021-07-26 22:49:43'),
-(14, 'savira', 'Jogjakarta', '', '2021-07-25 22:58:20', '2021-07-26 22:58:20'),
-(15, 'BELA SAVIRA', 'Jogjakarta', '0812345678', '2021-07-28 00:40:00', '2021-07-29 00:40:00'),
-(16, 'Putra', 'Jogjakarta', '0812345678', '2021-07-29 13:10:15', '2021-07-30 13:10:15'),
-(17, 'budi', 'Jogjakarta', '0812345678', '2021-07-29 13:11:32', '2021-07-30 13:11:32'),
-(18, 'wari', 'Jogjakarta', '0812345678', '2021-07-29 13:23:15', '2021-07-30 13:23:15'),
-(19, 'kita', 'Jogjakarta', '0812345678', '2021-07-29 13:32:30', '2021-07-30 13:32:30'),
-(20, 'bibi', 'Jogjakarta', '0812345678', '2021-07-29 13:48:53', '2021-07-30 13:48:53');
+INSERT INTO `tb_invoice` (`id_invoice`, `nama`, `alamat`, `no_hp`, `tgl_pesan`, `batas_bayar`, `keterangan`, `status_bayar`, `status_kirim`, `id_konsumen`) VALUES
+(65, 'putra', 'Jogjakarta', '081234567809', '2021-07-30 21:52:54', '2021-07-31 21:52:54', 'aa', 'menunggu pembayaran', 'belum dikirim', 1);
 
 -- --------------------------------------------------------
 
@@ -201,24 +233,8 @@ CREATE TABLE `tb_pesanan` (
   `jumlah` int(5) NOT NULL,
   `harga` int(11) NOT NULL,
   `sub_total` int(11) NOT NULL,
-  `status_bayar` enum('belum bayar','sudah bayar','kadaluarsa') NOT NULL,
-  `status_kirim` enum('belum kirim','proses kirim','barang diterima') NOT NULL
+  `total` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_pesanan`
---
-
-INSERT INTO `tb_pesanan` (`id_pesanan`, `id_invoice`, `id_brg`, `nama_brg`, `jumlah`, `harga`, `sub_total`, `status_bayar`, `status_kirim`) VALUES
-(6, 11, 1, 'Gula batu', 1, 10000, 0, 'belum bayar', 'belum kirim'),
-(7, 12, 1, 'Gula batu', 2, 10000, 0, 'belum bayar', 'belum kirim'),
-(8, 14, 1, 'Gula batu', 3, 10000, 30000, 'belum bayar', 'belum kirim'),
-(9, 15, 6, 'Daging Ayam', 2, 35000, 70000, 'belum bayar', 'belum kirim'),
-(10, 16, 2, 'Beras Cap Topi Koki', 1, 120000, 120000, 'belum bayar', 'belum kirim'),
-(11, 17, 2, 'Beras Cap Topi Koki', 1, 120000, 120000, 'belum bayar', 'belum kirim'),
-(12, 18, 1, 'Gula batu', 1, 10000, 10000, 'belum bayar', 'belum kirim'),
-(13, 19, 1, 'Gula batu', 1, 10000, 10000, 'belum bayar', 'belum kirim'),
-(14, 20, 6, 'Daging Ayam', 1, 35000, 35000, 'belum bayar', 'belum kirim');
 
 --
 -- Triggers `tb_pesanan`
@@ -231,9 +247,42 @@ END
 $$
 DELIMITER ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_riwayat_pesanan`
+--
+
+CREATE TABLE `tb_riwayat_pesanan` (
+  `id_riwayat_pesanan` int(11) NOT NULL,
+  `id_pesanan` int(11) NOT NULL,
+  `id_invoice` int(11) NOT NULL,
+  `nama_brg` varchar(200) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `sub_total` int(11) NOT NULL,
+  `total` int(50) NOT NULL,
+  `order_id` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_riwayat_pesanan`
+--
+
+INSERT INTO `tb_riwayat_pesanan` (`id_riwayat_pesanan`, `id_pesanan`, `id_invoice`, `nama_brg`, `jumlah`, `harga`, `sub_total`, `total`, `order_id`) VALUES
+(19, 49, 64, 'wortel organik', 2, 8000, 16000, 26000, '1339627110'),
+(20, 50, 64, 'Gula batu', 1, 10000, 10000, 26000, '1339627110'),
+(21, 51, 65, 'wortel organik', 2, 8000, 16000, 16000, '613888615');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tb_admin`
@@ -289,8 +338,20 @@ ALTER TABLE `tb_pesanan`
   ADD KEY `id_invoice` (`id_invoice`);
 
 --
+-- Indexes for table `tb_riwayat_pesanan`
+--
+ALTER TABLE `tb_riwayat_pesanan`
+  ADD PRIMARY KEY (`id_riwayat_pesanan`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `tb_admin`
@@ -314,7 +375,7 @@ ALTER TABLE `tb_barang`
 -- AUTO_INCREMENT for table `tb_invoice`
 --
 ALTER TABLE `tb_invoice`
-  MODIFY `id_invoice` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_invoice` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `tb_kategori`
@@ -338,7 +399,13 @@ ALTER TABLE `tb_pembayaran`
 -- AUTO_INCREMENT for table `tb_pesanan`
 --
 ALTER TABLE `tb_pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
+-- AUTO_INCREMENT for table `tb_riwayat_pesanan`
+--
+ALTER TABLE `tb_riwayat_pesanan`
+  MODIFY `id_riwayat_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables

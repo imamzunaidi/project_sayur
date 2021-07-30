@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
-			<div class="btn btn-sm btn-success" align="center">
+			<div align="center">
 				<?php 
 				$grand_total = 0;
 				if ($keranjang = $this->cart->contents()) 
@@ -13,7 +13,7 @@
 				 		$grand_total = $grand_total + $item['subtotal'];
 				 	} 
 
-				 	echo "<h5>Total Belanja Anda: Rp. ".number_format($grand_total, 0,',','.');
+				 	
 				 ?>
 			</div><br><br>
 
@@ -23,27 +23,27 @@
 				
 				<div class="form-group">
 					<label>Nama Lengkap</label>
-					<input type="text" name="nama" placeholder="Nama Lengkap Anda" class="form-control">
+					<input type="text" name="nama" placeholder="Nama Lengkap Anda" class="form-control" value = <?php echo $this->session->userdata('nama')?>>
 				</div>
 
 				<div class="form-group">
 					<label>Alamat Lengkap</label>
-					<input type="text" name="alamat" placeholder="Alamat Lengkap Anda" class="form-control">
+					<input type="text" name="alamat" placeholder="Alamat Lengkap Anda" class="form-control"  value = <?= $this->session->userdata('alamat')?>>
 				</div>
 
+				<div class="form-group">
+					<label>Total Bayar</label>
+					<input type="text" name="total" disabled placeholder="No. Handphone Anda Yang Dapat Dihubungi" class="form-control" value = <?php echo number_format($grand_total, 0,',','.'); ?> required>
+				</div>
+				
 				<div class="form-group">
 					<label>No. Handphone</label>
-					<input type="text" name="no_hp" placeholder="No. Handphone Anda Yang Dapat Dihubungi" class="form-control">
+					<input type="text" name="no_hp" placeholder="No. Handphone Anda Yang Dapat Dihubungi" class="form-control" value = <?= $this->session->userdata('no_hp')?>>
 				</div>
 
 				<div class="form-group">
-					<label>Metode Pembayaran</label>
-					<select name="metode_pembayaran" class="form-control">
-						<option value="">--Pilih Metode Pembayaran--</option>
-						<?php foreach ($pembayaran as $value) { ?>
-		                	<option value="<?php echo $value->id_pembayaran ?>"><?php echo $value->metode_pembayaran ?> - <?php echo $value->no_rek ?></option>
-		              	<?php } ?>						
-					</select>
+					<label>Tambahan Keterangan</label>
+					<textarea name="keterangan" id="" class = "form-control" cols="20" rows="5"></textarea>
 				</div>
 
 				<button type="submit" class="btn btn-sm btn-primary mb-3">Pesan</button>
