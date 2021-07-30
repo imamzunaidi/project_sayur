@@ -50,11 +50,12 @@ class Auth extends CI_Controller
 			} elseif ($auth1) {
 				$this->session->set_userdata('username', $auth1->username);
 				$this->session->set_userdata('role_id', $auth1->role_id);
-
+				$this->session->set_userdata('id', $auth1->id_konsumen);
 				redirect('konsumen/dashboard');
 			} else {
 				$this->session->set_userdata('username', $auth->username);
 				$this->session->set_userdata('role_id', $auth->role_id);
+				$this->session->set_userdata('id', $auth->id_admin);
 
 				switch ($auth->role_id) {
 					case 1:

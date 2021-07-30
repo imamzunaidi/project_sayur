@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Model_auth extends CI_Model
 {
@@ -8,14 +8,13 @@ class Model_auth extends CI_Model
 		$password	= set_value('password');
 
 		$result		= $this->db->where('username', $username)
-							   ->where('password', $password)
-							   ->limit(1)
-							   ->get('tb_admin');
+			->where('password', $password)
+			->limit(1)
+			->get('tb_admin');
 
-		if($result->num_rows() > 0)
-		{
+		if ($result->num_rows() > 0) {
 			return $result->row();
-		}else{
+		} else {
 			return FALSE;
 		}
 	}
@@ -28,14 +27,13 @@ class Model_auth extends CI_Model
 		$password	= $pass;
 
 		$result		= $this->db->where('username', $username)
-							   ->where('password', $password)
-							   ->limit(1)
-							   ->get('tb_konsumen');
+			->where('password', $password)
+			->limit(1)
+			->get('tb_konsumen');
 
-		if($result->num_rows() > 0)
-		{
+		if ($result->num_rows() > 0) {
 			return $result->row();
-		}else{
+		} else {
 			return FALSE;
 		}
 	}
@@ -58,5 +56,27 @@ class Model_auth extends CI_Model
 	{
 		$this->db->where('id_konsumen', $id_konsumen)
 			->update('tb_konsumen', $data);
+	}
+
+	public function ubah_password($id, $role_id, $password)
+	{
+		$data = [
+			'password' => $password
+		];
+
+		switch ($role_id) {
+			case 1:
+				$this->db
+					->where('id_admin', $id)
+					->update('tb_admin', $data);
+				break;
+			case 2:
+				$this->db
+					->where('id_konsumen', $id)
+					->update('tb_konsumen', $data);
+				break;
+			default:
+				break;
+		}
 	}
 }
