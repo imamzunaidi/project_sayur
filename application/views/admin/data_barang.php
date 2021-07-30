@@ -1,52 +1,51 @@
 <div class="container-fluid">
 
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h3 class="h3 mb-0 text-gray-800"><b>DATA PRODUK</b></h3>
-    </div>
-	
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h3 class="h3 mb-0 text-gray-800"><b>DATA PRODUK</b></h3>
+	</div>
+
 	<!-- <button class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#tambah_barang"><i class="fas fa-plus fa-sm"></i> Tambah Barang</button> -->
-  <a class="btn btn-sm btn-primary mb-3" href="<?php echo base_url('admin/data_barang/tambah_barang')?>"><i class="fas fa-plus"></i> Tambah Data</a>
+	<a class="btn btn-sm btn-primary mb-3" href="<?php echo base_url('admin/data_barang/tambah_barang') ?>"><i class="fas fa-plus"></i> Tambah Data</a>
 
-  <?php echo $this->session->flashdata('pesan') ?>
-
-	<table class="table table-striped table-bordered">
-		<tr>
-			<th class="text-center">NO</th>
-			<th class="text-center">NAMA BARANG</th>
-			<th class="text-center">KETERANGAN</th>
-			<th class="text-center">KATEGORI</th>
-			<th class="text-center">HARGA</th>
-			<th class="text-center">STOK</th>
-			<th class="text-center" colspan="3">AKSI</th>
-		</tr>
-
-		<?php 
-		$no=1;
-		foreach ($barang as $brg) : ?>
-
-			<tr>
-				<td class="text-center"><?php echo $no++ ?></td>
-				<td><?php echo $brg->nama_brg ?></td>
-				<td><?php echo $brg->keterangan ?></td>
-				<td class="text-center"><?php echo $brg->nama_kategori ?></td>
-				<td class="text-center">Rp. <?php echo number_format($brg->harga,0,',','.')  ?></td>
-				<td class="text-center"><?php echo $brg->stok ?></td>
-				<!-- <td>
-					<center>
-						<a class="btn btn-success btn-sm" href=""><i class="fas fa-search-plus"></i></a>
-						<a class="btn btn-primary btn-sm" href=""></a>
-						<a class="btn btn-danger btn-sm" href=""><i class="fas fa-trash"></i></a>
-					</center>
-				</td> -->
-				<td><center><?php echo anchor('admin/data_barang/detail/'.$brg->id_brg, '<div class="btn btn-success btn-sm"><i class="fas fa-eye"></i></div>') ?></center></td>
-				 <td><center><?php echo anchor('admin/data_barang/edit/' .$brg->id_brg, '<div class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></div>') ?></center></td>
-        <!-- <td><center><div class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_barang"><i class="fa fa-edit"></i></div></center></td> -->
-				<td><center><?php echo anchor('admin/data_barang/hapus/' .$brg->id_brg, '<div class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></div>') ?></center></td>
-			</tr>
-
-		<?php endforeach; ?>
-
-	</table>
+	<?php echo $this->session->flashdata('pesan') ?>
+	<div class="card shadow">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered" id="dataTable">
+					<thead>
+						<tr>
+							<th class="text-center">NO</th>
+							<th class="text-center">NAMA BARANG</th>
+							<th class="text-center">KETERANGAN</th>
+							<th class="text-center">KATEGORI</th>
+							<th class="text-center">HARGA</th>
+							<th class="text-center">STOK</th>
+							<th class="text-center">AKSI</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$no = 1;
+						foreach ($barang as $brg) : ?>
+							<tr>
+								<td class="text-center"><?php echo $no++ ?></td>
+								<td><?php echo $brg->nama_brg ?></td>
+								<td><?php echo $brg->keterangan ?></td>
+								<td class="text-center"><?php echo $brg->nama_kategori ?></td>
+								<td class="text-center">Rp. <?php echo number_format($brg->harga, 0, ',', '.')  ?></td>
+								<td class="text-center"><?php echo $brg->stok ?></td>
+								<td>
+									<?php echo anchor('admin/data_barang/detail/' . $brg->id_brg, '<div class="btn btn-success btn-sm m-1"><i class="fas fa-eye"></i></div>') ?>
+									<?php echo anchor('admin/data_barang/edit/' . $brg->id_brg, '<div class="btn btn-primary btn-sm m-1"><i class="fa fa-edit"></i></div>') ?>
+									<?php echo anchor('admin/data_barang/hapus/' . $brg->id_brg, '<div class="btn btn-danger btn-sm m-1"><i class="fas fa-trash"></i></div>') ?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Modal tambah barang-->
@@ -60,7 +59,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="<?php //echo base_url(). 'admin/data_barang/tambah_aksi' ?>" 
+        <form action="<?php //echo base_url(). 'admin/data_barang/tambah_aksi' 
+						?>" 
         	method="post" enctype="multipart/form_data">
 
         	<div class="form-group">
@@ -75,9 +75,13 @@
         		<label>Kategori</label>
         		<select name="nama_kategori" class="form-control">
               <option value="">--Pilih Kategori--</option>  
-              <?php //foreach ($kategori as $value) { ?>
-                <option value="<?php //echo $value->id_kategori ?>"><?php //echo $value->nama_kategori ?></option>
-              <?php //} ?>
+              <?php //foreach ($kategori as $value) { 
+				?>
+                <option value="<?php //echo $value->id_kategori 
+								?>"><?php //echo $value->nama_kategori 
+									?></option>
+              <?php //} 
+				?>
             </select>
         	</div>
         	<div class="form-group">
