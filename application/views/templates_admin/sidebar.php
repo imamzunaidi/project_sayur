@@ -7,7 +7,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url('admin/dashboard_admin') ?>">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-store"></i>
                 </div>
@@ -111,10 +111,9 @@
                                 <?php if ($this->session->userdata('username')) { ?>
 
                                     <li>
-                                        <div> Selamat Datang <?php echo $this->session->userdata('username') ?>
-                                        </div>
+                                        <div><?php echo anchor('admin/info', 'Selamat Datang ' . $this->session->userdata('username')) ?></div>
                                     </li>
-                                    <li class="ml-2"><?php echo anchor('auth/logout', 'Logout'); ?></li>
+                                    <?php echo anchor('auth/logout', '<div class="btn btn-sm btn-primary ml-2">Logout</div>') ?>
                                 <?php } else { ?>
                                     <li><?php echo anchor('auth/login', 'Login'); ?></li>
                                 <?php } ?>
