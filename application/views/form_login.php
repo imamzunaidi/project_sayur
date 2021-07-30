@@ -27,7 +27,7 @@
                                                 <?php echo form_error('username', '<div class="text-danger small ml-2">','</div>') ?>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
+                                            <input type="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Masukan Password Anda..." name="password">
                                                 <?php echo form_error('password', '<div class="text-danger small ml-2">','</div>') ?>
                                         </div>
@@ -38,7 +38,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="forgot">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="<?php echo base_url('registrasi/index') ?>">Belum Punya Akun? Daftar!</a>

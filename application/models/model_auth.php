@@ -39,4 +39,24 @@ class Model_auth extends CI_Model
 			return FALSE;
 		}
 	}
+
+	public function cek_email()
+	{
+		$email	= set_value('email');
+		$result		= $this->db->where('email', $email)
+			->limit(1)
+			->get('tb_konsumen');
+
+		if ($result->num_rows() > 0) {
+			return $result->row();
+		} else {
+			return null;
+		}
+	}
+
+	public function reset_password($data, $id_konsumen)
+	{
+		$this->db->where('id_konsumen', $id_konsumen)
+			->update('tb_konsumen', $data);
+	}
 }
