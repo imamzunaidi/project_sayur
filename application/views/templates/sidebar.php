@@ -70,6 +70,10 @@
                     <!-- <h6 class="collapse-header">Custom Components:</h6> -->
                     <a class="collapse-item" href="<?php echo base_url('konsumen/pesanan') ?>">
                         <i class="fas fa-fw fa-basket"></i>
+                        <span>Data Invoice</span>
+                    </a>
+                    <a class="collapse-item" href="<?php echo base_url('konsumen/pesanan') ?>">
+                        <i class="fas fa-fw fa-basket"></i>
                         <span>Data Pesanan</span>
                     </a>
                     <a class="collapse-item" href="<?php echo base_url('payment/snap/riwayat_pemesanan') ?>">

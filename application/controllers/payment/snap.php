@@ -24,6 +24,9 @@ class Snap extends CI_Controller {
     {
         parent::__construct();
         $params = array('server_key' => 'SB-Mid-server-EDbyYBEqxixIouHbS9R91Ujc', 'production' => false);
+		
+		$this->load->library('veritrans');
+		$this->veritrans->config($params);
 		$this->load->library('midtrans');
 		$this->midtrans->config($params);
 		$this->load->helper('url');	
@@ -255,7 +258,7 @@ class Snap extends CI_Controller {
 
 	public function riwayat_pemesanan(){
 		$id_konsumen = $this->session->userdata('id_konsumen');
-		$data['riwayat'] = $this->db->query("SELECT * FROM tb_riwayat_pesanan r left join tb_invoice t on r.id_invoice = t.id_invoice where id_konsumen = $id_konsumen")->result();
+		$data['riwayat'] = $this->model_detail_riwayat->riwayat_pesanan($id_konsumen);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
