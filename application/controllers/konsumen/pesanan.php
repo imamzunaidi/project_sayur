@@ -22,7 +22,7 @@ class Pesanan extends CI_Controller
 	public function index()
 	{
 		// $data['invoice'] = $this->model_invoice->tampil_data();
-		$data ['invoice']	= $this->db->query("SELECT * FROM tb_invoice v left join tb_pesanan p on v.id_invoice = p.id_invoice GROUP BY p.id_invoice")->result();
+		$data ['invoice']	= $this->model_pesanan->tampil_data_pesanan();
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
 		$this->load->view('konsumen/pesanan', $data);
@@ -44,7 +44,7 @@ class Pesanan extends CI_Controller
 
 	public function tampil_pemesanan(){
 		$id_konsumen = $this->session->userdata('id_konsumen');
-		$data['invoice'] = $this->db->query("SELECT * FROM tb_invoice where id_konsumen  = $id_konsumen order by id_invoice desc")->result();
+		$data['invoice'] = $this->model_pesanan->tampil_pesanan_id($id_konsumen);
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
 		$this->load->view('konsumen/pesanan', $data);
@@ -61,4 +61,16 @@ class Pesanan extends CI_Controller
 		</div>');
 		redirect('konsumen/pesanan');
 	}
+
+	public function detail_riwayat_pesanan($id_invoice){
+		$data['payment'] = $this->model_detail_riwayat->detail_payment($id_invoice);
+		$data['barang'] = $this->model_detail_riwayat->detail_barang($id_invoice);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('konsumen/detail_riwayat_pesanan', $data);
+		$this->load->view('templates/footer');
+	}
+
+
 }

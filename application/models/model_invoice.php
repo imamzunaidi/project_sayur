@@ -100,6 +100,8 @@ class Model_invoice extends CI_model
     	$this->db->delete('tb_invoice', $data);
 	}
 
+	
+
 	// public function ambil_id_pesanan($table, $data, $where)
 	// {
 	// 	$this->db->where($where);
